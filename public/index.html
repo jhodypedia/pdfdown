@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PDF Downloader</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <!-- Loading Overlay -->
+  <div id="loading"
+       class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4">
+      <div class="h-5 w-5 animate-spin rounded-full border-2 border-white/20 border-t-white"></div>
+      <div class="text-sm text-slate-200">Processing…</div>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-3xl px-4 py-10">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-tight">PDF Downloader</h1>
+        <p class="text-slate-300 mt-1">Input URL → cek info file → download/preview.</p>
+      </div>
+      <a class="hidden sm:inline-flex text-xs text-slate-300 hover:text-white"
+         href="/api/health" target="_blank">health</a>
+    </div>
+
+    <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 shadow-lg">
+      <label class="text-sm text-slate-300">URL PDF</label>
+      <input id="url"
+        class="mt-2 w-full rounded-xl border border-white/10 bg-slate-900/40 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500/40"
+        placeholder="Tempel link PDF di sini…"
+        type="url"
+        value="https://journal.uii.ac.id/Abhats/article/download/36459/17299" />
+
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+        <input id="filename"
+          class="md:col-span-1 w-full rounded-xl border border-white/10 bg-slate-900/40 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500/40"
+          placeholder="Nama file (opsional)"
+          type="text" />
+
+        <button id="btnCheck"
+          class="md:col-span-1 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition px-4 py-3 font-semibold">
+          Check File
+        </button>
+
+        <button id="btnDownload"
+          class="md:col-span-1 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition px-4 py-3 font-semibold">
+          Download
+        </button>
+      </div>
+
+      <div class="mt-3 flex flex-col md:flex-row gap-3">
+        <button id="btnPreview"
+          class="rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition px-4 py-2 text-sm font-semibold">
+          Preview (Embed)
+        </button>
+
+        <button id="btnOpen"
+          class="rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition px-4 py-2 text-sm font-semibold">
+          Open in New Tab
+        </button>
+      </div>
+
+      <div id="toast" class="mt-4 hidden rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm"></div>
+
+      <div id="meta" class="mt-4 hidden rounded-xl border border-white/10 bg-black/20 p-4 text-sm text-slate-200">
+        <div class="font-semibold mb-2">File Info</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs md:text-sm">
+          <div><span class="text-slate-400">Filename:</span> <span id="mName"></span></div>
+          <div><span class="text-slate-400">Content-Type:</span> <span id="mType"></span></div>
+          <div><span class="text-slate-400">Size:</span> <span id="mSize"></span></div>
+        </div>
+      </div>
+
+      <div id="previewWrap" class="mt-4 hidden">
+        <div class="mb-2 text-sm font-semibold">Preview</div>
+        <div class="aspect-[3/4] w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+          <iframe id="previewFrame" class="h-full w-full" loading="lazy"></iframe>
+        </div>
+        <p class="mt-2 text-xs text-slate-400">
+          Preview memakai endpoint kamu (bukan direct). Jika server upstream blok embed, gunakan “Open in New Tab”.
+        </p>
+      </div>
+
+      <div class="mt-6 rounded-xl border border-dashed border-white/10 bg-black/20 p-4 text-xs text-slate-300">
+        Contoh link lain:
+        <div class="mt-2 break-all text-slate-200">
+          https://journal.uaindonesia.ac.id/index.php/alhakam/article/download/496/432
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
